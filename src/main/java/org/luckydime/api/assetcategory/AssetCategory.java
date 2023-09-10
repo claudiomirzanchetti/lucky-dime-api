@@ -1,4 +1,4 @@
-package com.luckydime.api.assetcategory;
+package org.luckydime.api.assetcategory;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

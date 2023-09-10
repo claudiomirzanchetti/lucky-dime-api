@@ -1,4 +1,4 @@
-package com.luckydime.api.assetcategory;
+package org.luckydime.api.assetcategory;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

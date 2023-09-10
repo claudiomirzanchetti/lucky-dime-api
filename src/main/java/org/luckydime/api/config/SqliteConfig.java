@@ -1,4 +1,4 @@
-package com.luckydime.api.config;
+package org.luckydime.api.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import org.springframework.core.env.Environment;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.luckydime.api")
+@EnableJpaRepositories(basePackages = "org.luckydime.api")
 @PropertySource("classpath:persistence.properties")
 public class SqliteConfig {
     @Autowired

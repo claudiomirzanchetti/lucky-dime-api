@@ -5,7 +5,7 @@ plugins {
 	id "org.flywaydb.flyway" version "9.19.0"
 }
 
-group = 'com.luckydime'
+group = 'org.luckydime'
 version = '0.0.1-SNAPSHOT'
 
 java {

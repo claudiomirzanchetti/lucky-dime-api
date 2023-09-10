@@ -1,4 +1,4 @@
-package com.luckydime.api;
+package org.luckydime.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

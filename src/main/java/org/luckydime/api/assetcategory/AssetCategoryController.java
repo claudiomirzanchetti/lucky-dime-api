@@ -1,4 +1,4 @@
-package com.luckydime.api.assetcategory;
+package org.luckydime.api.assetcategory;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

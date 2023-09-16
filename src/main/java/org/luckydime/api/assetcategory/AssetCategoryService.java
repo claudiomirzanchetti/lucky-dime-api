@@ -15,4 +15,8 @@ public class AssetCategoryService {
     public List<AssetCategoryDto> findAll() {
         return assetCategoryMapper.map(assetCategoryRepository.findAll());
     }
+
+    public AssetCategoryDto findById(Long id) {
+        return assetCategoryMapper.map(assetCategoryRepository.findById(id).orElse(null));
+    }
 }

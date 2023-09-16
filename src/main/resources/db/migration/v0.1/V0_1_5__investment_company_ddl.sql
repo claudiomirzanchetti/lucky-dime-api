@@ -1,0 +1,1 @@
+ALTER TABLE investment_company RENAME COLUMN description TO name;

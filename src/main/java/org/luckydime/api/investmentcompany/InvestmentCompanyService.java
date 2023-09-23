@@ -1,6 +1,7 @@
 package org.luckydime.api.investmentcompany;
 
 import lombok.RequiredArgsConstructor;
+import org.luckydime.api.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class InvestmentCompanyService {
     }
 
     public InvestmentCompanyDto findById(Long id) {
-        return investmentCompanyMapper.map(investmentCompanyRepository.findById(id).orElse(null));
+        return investmentCompanyMapper.map(investmentCompanyRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new));
     }
 }

@@ -1,7 +1,7 @@
 package org.luckydime.api.assetcategory;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.luckydime.api.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +17,7 @@ public class AssetCategoryService {
     }
 
     public AssetCategoryDto findById(Long id) {
-        return assetCategoryMapper.map(assetCategoryRepository.findById(id).orElse(null));
+        return assetCategoryMapper.map(assetCategoryRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new));
     }
 }

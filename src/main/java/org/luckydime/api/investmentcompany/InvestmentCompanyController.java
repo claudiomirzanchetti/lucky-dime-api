@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/lucky-dime-api/investment-companies")
+@RequestMapping("/investment-companies")
 @RequiredArgsConstructor
 public class InvestmentCompanyController {
     private final InvestmentCompanyService investmentCompanyService;

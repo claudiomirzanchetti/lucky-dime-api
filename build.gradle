@@ -28,8 +28,7 @@ dependencies {
 	implementation 'org.springframework:spring-core'
 
 	implementation 'org.flywaydb:flyway-core'
-	implementation 'org.xerial:sqlite-jdbc:3.43.0.0'
-	implementation 'org.hibernate.orm:hibernate-community-dialects:6.3.0.Final'
+	implementation 'org.postgresql:postgresql:42.6.0'
 
 	// Lombok must be declared first than Mapstruct
 	compileOnly 'org.projectlombok:lombok'

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/lucky-dime-api/asset-categories")
+@RequestMapping("/asset-categories")
 @RequiredArgsConstructor
 public class AssetCategoryController {
     private final AssetCategoryService assetCategoryService;

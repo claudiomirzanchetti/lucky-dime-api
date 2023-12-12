@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Builder
 @Getter
@@ -41,7 +41,7 @@ public class FinancialAssetDto {
     private String announcedReturn;
 
     @JsonFormat(pattern="yyyy-MM-dd")
-    private Date maturityDate;
+    private LocalDate maturityDate;
 
     @Size(max = 200)
     private String reference;

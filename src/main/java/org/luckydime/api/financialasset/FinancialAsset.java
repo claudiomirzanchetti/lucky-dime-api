@@ -21,7 +21,7 @@ import lombok.Setter;
 import org.luckydime.api.assetcategory.AssetCategory;
 import org.luckydime.api.investmentcompany.InvestmentCompany;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "financial_asset")
@@ -59,7 +59,7 @@ public class FinancialAsset {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "maturity_date")
-    private Date maturityDate;
+    private LocalDate maturityDate;
 
     @Column(name = "reference")
     private String reference;

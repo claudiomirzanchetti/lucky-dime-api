@@ -20,4 +20,8 @@ public class InvestmentPositionService {
         return investmentPositionMapper.map(investmentPositionRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new));
     }
+
+    public void saveAll(List<InvestmentPosition> investimentosBb) {
+        investmentPositionRepository.saveAll(investimentosBb);
+    }
 }

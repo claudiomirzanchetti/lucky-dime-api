@@ -49,6 +49,10 @@ public class FinancialAssetDto {
     @Size(max = 2000)
     private String note;
 
+    private String nameInStatement;
+
+    private Integer orderInStatement;
+
     @JsonIgnore
     private double totalAmount;
 

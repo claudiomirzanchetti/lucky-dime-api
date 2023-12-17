@@ -24,4 +24,12 @@ public class FinancialAssetService {
     public FinancialAssetDto save(FinancialAssetDto financialAssetDto) {
         return financialAssetMapper.map(financialAssetRepository.save(financialAssetMapper.map(financialAssetDto)));
     }
+
+    public List<FinancialAsset> findByNameInStatementOrderByNameAndOrderPresentInTheStatement(String nameInStatement) {
+        return financialAssetRepository.findByNameInStatementOrderByNameInStatementAscOrderInStatementAsc(nameInStatement);
+    }
+
+    public boolean isNameInStatementExistent(String nameInStatement) {
+        return !financialAssetRepository.findByNameInStatementOrderByNameInStatementAscOrderInStatementAsc(nameInStatement).isEmpty();
+    }
 }

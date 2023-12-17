@@ -67,6 +67,12 @@ public class FinancialAsset {
     @Column(name = "note")
     private String note;
 
+    @Column(name = "name_in_statement")
+    private String nameInStatement;
+
+    @Column(name = "order_in_statement")
+    private Integer orderInStatement;
+
     @Transient
     private double totalAmount;
 

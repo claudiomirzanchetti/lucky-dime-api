@@ -45,4 +45,10 @@ public class InvestmentPosition {
 
     @Column(name = "position_value")
     private Double positionValue;
+
+    @Column(name = "number_of_shares")
+    private int numberOfShares;
+
+    @Column(name = "share_price")
+    private Double sharePrice;
 }

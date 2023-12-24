@@ -2,7 +2,6 @@ package org.luckydime.api.investmentposition;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +31,10 @@ public class InvestmentPositionDto {
 
     @DecimalMin(value = "0.01")
     private Double positionValue;
+
+    private int numberOfShares;
+
+    private Double sharePrice;
 
     public String getMonthYear() {
         return isNull(positionDate)

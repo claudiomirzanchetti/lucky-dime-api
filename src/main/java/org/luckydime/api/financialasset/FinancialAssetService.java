@@ -5,6 +5,7 @@ import org.luckydime.api.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +32,9 @@ public class FinancialAssetService {
 
     public boolean isNameInStatementExistent(String nameInStatement) {
         return !financialAssetRepository.findByNameInStatementOrderByNameInStatementAscOrderInStatementAsc(nameInStatement).isEmpty();
+    }
+
+    public Optional<FinancialAsset> findByTickerSymbol(String tickerSymbol) {
+        return financialAssetRepository.findByTickerSymbol(tickerSymbol);
     }
 }

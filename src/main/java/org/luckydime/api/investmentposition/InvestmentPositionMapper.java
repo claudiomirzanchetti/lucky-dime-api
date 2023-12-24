@@ -13,6 +13,8 @@ import java.util.List;
 public interface InvestmentPositionMapper {
 
     @Mapping(target = "financialAssetId", source = "financialAsset.id")
+    @Mapping(target = "investmentCompanyName", source = "financialAsset.investmentCompany.name")
+    @Mapping(target = "assetCategoryDescription", source = "financialAsset.assetCategory.description")
     InvestmentPositionDto map(InvestmentPosition source);
 
     @InheritInverseConfiguration

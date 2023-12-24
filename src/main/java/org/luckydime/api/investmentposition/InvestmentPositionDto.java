@@ -1,6 +1,7 @@
 package org.luckydime.api.investmentposition;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,12 @@ public class InvestmentPositionDto {
     private int numberOfShares;
 
     private Double sharePrice;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String investmentCompanyName;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String assetCategoryDescription;
 
     public String getMonthYear() {
         return isNull(positionDate)

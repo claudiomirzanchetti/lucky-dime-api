@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CsvUtils {
+public class CsvUtil {
     public static Stream<String> getLinesFromCsv(File csvFile) {
         FileReader fileReader;
         try {
@@ -32,7 +32,7 @@ public class CsvUtils {
     }
 
     public static Stream<String> getLinesFromCsv(String fileNameSufix) {
-        File csvFile = FileUtils.getStatementFile(fileNameSufix);
+        File csvFile = FileUtil.getStatementFile(fileNameSufix);
         return getLinesFromCsv(csvFile);
     }
 

@@ -1,15 +1,18 @@
 package org.luckydime.api.bankstatement.orama;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.luckydime.api.financialasset.FinancialAsset;
 import org.luckydime.api.financialasset.FinancialAssetService;
 import org.luckydime.api.investmentposition.InvestmentPosition;
-import org.luckydime.api.util.CsvUtils;
-import org.luckydime.api.util.FileUtils;
+import org.luckydime.api.util.CsvUtil;
+import org.luckydime.api.util.ExceptionUtil;
+import org.luckydime.api.util.FileUtil;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +24,22 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OramaFixedIncomeFundStatementService {
     private final FinancialAssetService financialAssetService;
 
     public List<InvestmentPosition> getInvestmentPositions(LocalDate statementDate) {
-        var investmentFunds = new ArrayList<InvestmentPosition>();
-        File investmentFundsFile = FileUtils.getStatementFile("orama-rf");
+        log.info("Getting investment positions from Orama fixed income fund statement.");
+
+        var investmentPositions = new ArrayList<InvestmentPosition>();
+        File investmentFundsFile = FileUtil.getStatementFile("orama-rf");
         NumberFormat numberFormat = NumberFormat.getInstance(new Locale("pt", "BR"));
         AtomicInteger purchaseNumber = new AtomicInteger(0);
         AtomicReference<List<FinancialAsset>> assetsWithNameInStatement = new AtomicReference<>(new ArrayList<>());
 
-        CsvUtils.getLinesFromCsv(investmentFundsFile)
+        CsvUtil.getLinesFromCsv(investmentFundsFile)
                 .forEach(l -> {
-                    String[] lineValues = CsvUtils.getValuesFromLine(l);
+                    String[] lineValues = CsvUtil.getValuesFromLine(l);
 
                     if (lineValues.length < 4) {
                         return;
@@ -58,18 +64,20 @@ public class OramaFixedIncomeFundStatementService {
                             double position = numberFormat.parse(lineValues[5].trim()).doubleValue();
 
                             if (position > 0) {
-                                investmentFunds.add(InvestmentPosition.builder()
+                                investmentPositions.add(InvestmentPosition.builder()
                                         .financialAsset(currentAsset)
                                         .positionDate(statementDate)
                                         .positionValue(position)
                                         .build());
                             }
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                        } catch (ParseException e) {
+                            ExceptionUtil.logErrorAndThrowException("Unable to parse position. firstToken: " + firstToken, e);
                         }
                     }
                 });
 
-        return investmentFunds;
+        log.info("{} investment positions found.", investmentPositions.size());
+
+        return investmentPositions;
     }
 }

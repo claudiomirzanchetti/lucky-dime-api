@@ -5,8 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.luckydime.api.financialasset.FinancialAsset;
 import org.luckydime.api.financialasset.FinancialAssetService;
 import org.luckydime.api.investmentposition.InvestmentPosition;
-import org.luckydime.api.util.CsvUtils;
-import org.luckydime.api.util.FileUtils;
+import org.luckydime.api.util.CsvUtil;
+import org.luckydime.api.util.ExceptionUtil;
+import org.luckydime.api.util.FileUtil;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -29,40 +30,44 @@ public class BbInvestmentFundStatementService {
     private final FinancialAssetService financialAssetService;
 
     public List<InvestmentPosition> getInvestmentPositions(LocalDate statementDate) {
-        var investmentFunds = new ArrayList<InvestmentPosition>();
-        File investmentFundsFile = FileUtils.getStatementFile("bb-fi");
+        log.info("Getting investment positions from BB investment fund statement.");
+
+        var investmentPositions = new ArrayList<InvestmentPosition>();
+        File investmentFundsFile = FileUtil.getStatementFile("bb-fi");
         NumberFormat numberFormat = NumberFormat.getInstance(new Locale("pt", "BR"));
         final AtomicReference<FinancialAsset> financialAsset = new AtomicReference<>();
 
-        CsvUtils.getLinesFromFileUsingCharset(investmentFundsFile, Charset.forName("windows-1252"))
-            .forEach(l -> {
-                var nameInStatement = l.length() > 66 ? l.substring(0, 66).trim() : null;
+        CsvUtil.getLinesFromFileUsingCharset(investmentFundsFile, Charset.forName("windows-1252"))
+                .forEach(l -> {
+                    var nameInStatement = l.length() > 66 ? l.substring(0, 66).trim() : null;
 
-                if (isNull(financialAsset.get()) && nonNull(nameInStatement)) {
-                    financialAssetService.findByNameInStatementOrderByNameAndOrderPresentInTheStatement(nameInStatement).stream()
-                            .findFirst()
-                            .ifPresent(fa -> financialAsset.set(fa));
-                }
-
-                if (nonNull(financialAsset.get()) && l.contains("SALDO ATUAL        =")) {
-                    try {
-                        var position = numberFormat.parse(l.substring(116).trim()).doubleValue();
-
-                        if (position > 0) {
-                            investmentFunds.add(InvestmentPosition.builder()
-                                    .financialAsset(financialAsset.get())
-                                    .positionDate(statementDate)
-                                    .positionValue(position)
-                                    .build());
-                        }
-                    } catch (ParseException e) {
-                        throw new RuntimeException("Unable to parse position. nameInStatement: " + nameInStatement, e);
+                    if (isNull(financialAsset.get()) && nonNull(nameInStatement)) {
+                        financialAssetService.findByNameInStatementOrderByNameAndOrderPresentInTheStatement(nameInStatement).stream()
+                                .findFirst()
+                                .ifPresent(fa -> financialAsset.set(fa));
                     }
 
-                    financialAsset.set(null);
-                }
-            });
+                    if (nonNull(financialAsset.get()) && l.contains("SALDO ATUAL        =")) {
+                        try {
+                            var position = numberFormat.parse(l.substring(116).trim()).doubleValue();
 
-        return investmentFunds;
+                            if (position > 0) {
+                                investmentPositions.add(InvestmentPosition.builder()
+                                        .financialAsset(financialAsset.get())
+                                        .positionDate(statementDate)
+                                        .positionValue(position)
+                                        .build());
+                            }
+                        } catch (ParseException e) {
+                            ExceptionUtil.logErrorAndThrowException("Unable to parse position. nameInStatement: " + nameInStatement, e);
+                        }
+
+                        financialAsset.set(null);
+                    }
+                });
+
+        log.info("{} investment funds from Banco do Brasil found.", investmentPositions.size());
+
+        return investmentPositions;
     }
 }

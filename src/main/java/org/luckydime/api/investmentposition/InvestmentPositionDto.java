@@ -26,6 +26,21 @@ public class InvestmentPositionDto {
     @NotNull
     private Long financialAssetId;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String financialAssetName;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String financialAssetTickerSymbol;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String financialAssetReference;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String investmentCompanyName;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String assetCategoryDescription;
+
     @NotNull
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate positionDate;
@@ -37,13 +52,7 @@ public class InvestmentPositionDto {
 
     private Double sharePrice;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String investmentCompanyName;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String assetCategoryDescription;
-
-    public String getMonthYear() {
+    public String getYearMonth() {
         return isNull(positionDate)
                 ? StringUtils.EMPTY
                 : positionDate.getYear() + "-" + String.format("%02d", positionDate.getMonth().getValue());

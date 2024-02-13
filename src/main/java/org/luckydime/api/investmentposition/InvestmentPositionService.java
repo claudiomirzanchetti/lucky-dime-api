@@ -2,6 +2,7 @@ package org.luckydime.api.investmentposition;
 
 import lombok.RequiredArgsConstructor;
 import org.luckydime.api.exception.EntityNotFoundException;
+import org.luckydime.api.util.YearMonthUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,13 @@ public class InvestmentPositionService {
 
     public List<InvestmentPositionDto> findAll() {
         return investmentPositionMapper.map(investmentPositionRepository.findAll());
+    }
+
+    public List<InvestmentPositionDto> getPositionsByYearMonth(String yearMonth) {
+        var startDate = YearMonthUtil.getFirstDayFromYearMonth(yearMonth);
+        var endDate = YearMonthUtil.getLastDayFromYearMonth(yearMonth);
+
+        return investmentPositionMapper.map(investmentPositionRepository.findByPositionDateBetween(startDate, endDate));
     }
 
     public InvestmentPositionDto findById(Long id) {

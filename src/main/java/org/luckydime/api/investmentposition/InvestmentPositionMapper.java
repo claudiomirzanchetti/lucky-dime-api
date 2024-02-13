@@ -13,6 +13,9 @@ import java.util.List;
 public interface InvestmentPositionMapper {
 
     @Mapping(target = "financialAssetId", source = "financialAsset.id")
+    @Mapping(target = "financialAssetName", source = "financialAsset.name")
+    @Mapping(target = "financialAssetTickerSymbol", source = "financialAsset.tickerSymbol")
+    @Mapping(target = "financialAssetReference", source = "financialAsset.reference")
     @Mapping(target = "investmentCompanyName", source = "financialAsset.investmentCompany.name")
     @Mapping(target = "assetCategoryDescription", source = "financialAsset.assetCategory.description")
     InvestmentPositionDto map(InvestmentPosition source);

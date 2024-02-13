@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class InvestmentPositionController {
     private final InvestmentPositionService investmentPositionService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity findAll() {
         return ResponseEntity.ok(investmentPositionService.findAll());
     }
@@ -21,5 +22,10 @@ public class InvestmentPositionController {
     @GetMapping("/{id}")
     public ResponseEntity<InvestmentPositionDto> findById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(investmentPositionService.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity getPositionsByYearMonth(@RequestParam("yearMonth") String yearMonth) {
+        return ResponseEntity.ok(investmentPositionService.getPositionsByYearMonth(yearMonth));
     }
 }
